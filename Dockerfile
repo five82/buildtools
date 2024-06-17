@@ -1,7 +1,7 @@
 # buildtools
 
 # Use debian:stable for our image
-FROM docker.io/debian:stable-slim
+FROM --platform=$BUILDPLATFORM docker.io/debian:stable-slim
 
 # Set the working directory to /build
 WORKDIR /build
@@ -34,4 +34,15 @@ RUN apt-get update && \
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 # Install cargo-c
-RUN /root/.cargo/bin/cargo install cargo-c --jobs $(nproc)
+ARG TARGETPLATFORM
+RUN case "$TARGETPLATFORM" in \
+        "linux/amd64") \
+            RUST_TARGET="x86_64-unknown-linux-gnu";; \
+        "linux/arm64") \
+            RUST_TARGET="aarch64-unknown-linux-gnu";; \
+        *) echo "Unsupported platform: $TARGETPLATFORM" && exit 1 ;; \
+    esac && \
+    /root/.cargo/bin/rustup target add $RUST_TARGET && \
+    /root/.cargo/bin/cargo install cargo-c \
+    --jobs $(nproc) \
+    --target $RUST_TARGET
