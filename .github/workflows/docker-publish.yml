@@ -7,7 +7,7 @@ name: Docker
 
 on:
   schedule:
-    - cron: '0 9 3 * *' # 9:00 AM on the 3rd day of every month
+    - cron: '0 1 */8 * *' # Run every eight days at 1:00 UTC
   push:
     branches: [ "main" ]
   pull_request:

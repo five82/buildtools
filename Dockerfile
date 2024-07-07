@@ -1,7 +1,7 @@
 # buildtools
 
-# Use debian:stable for our image
-FROM docker.io/debian:stable-slim
+# Use ubuntu:noble for our image
+FROM docker.io/ubuntu:noble
 
 # Set the working directory to /build
 WORKDIR /build
