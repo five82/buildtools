@@ -1,7 +1,7 @@
 # buildtools
 
 # Use ubuntu:noble for our image
-FROM docker.io/ubuntu:noble
+FROM docker.io/ubuntu:oracular
 
 # Set the working directory to /build
 WORKDIR /build
